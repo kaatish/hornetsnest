@@ -1,4 +1,4 @@
-namespace hornet_alg {
+namespace hornets_nest {
 namespace detail {
 
 template<typename Operator>
@@ -58,8 +58,10 @@ void forAllVerticesKernel(HornetDevice              hornet,
     int     id = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = gridDim.x * blockDim.x;
 
-    for (vid_t i = id; i < num_items; i += stride)
-        op(hornet.vertex(vertices_array[i]));
+    for (vid_t i = id; i < num_items; i += stride) {
+        auto vertex = hornet.vertex(vertices_array[i]);
+        op(vertex);
+    }
 }
 /*
 template<unsigned BLOCK_SIZE, unsigned ITEMS_PER_BLOCK,
@@ -196,4 +198,4 @@ void forAllEdges(HornetClass&                hornet,
     load_balacing.apply(hornet, queue.device_input_ptr(), queue.size(), op);
 }
 
-} // namespace hornet_alg
+} // namespace hornets_nest
