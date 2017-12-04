@@ -234,8 +234,21 @@ int KatzCentrality::get_iteration_count() {
     return hd_katzdata().iteration;
 }
 
+//API requires a validate function.
 bool KatzCentrality::validate() {
     return true;
+}
+
+KatzData KatzCentrality::katz_data() {
+    return hd_katzdata;
+}
+
+void KatzCentrality::copyKCToHost(double* host_array) {
+    gpu::copyToHost(hd_katzdata().KC, hornet.nV(), host_array);
+}
+
+void KatzCentrality::copyNumPathsToHost(ulong_t* host_array) {
+    gpu::copyToHost(hd_katzdata().num_paths_curr, hornet.nV(), host_array);
 }
 
 } // namespace hornets_nest

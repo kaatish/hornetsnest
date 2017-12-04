@@ -54,33 +54,33 @@ int main(int argc, char* argv[]) {
     graph.read(argv[1], SORT | PRINT_INFO);
 
     HornetInit hornet_init(graph.nV(), graph.nE(),
-                           graph.csr_out_offsets(),
-                           graph.csr_out_edges());
+            graph.csr_out_offsets(),
+            graph.csr_out_edges());
 
-	HornetGraph hornet_graph(hornet_init);
+    HornetGraph hornet_graph(hornet_init);
 
     HornetInit hornet_init_inverse(graph.nV(), graph.nE(),
-                                   graph.csr_in_offsets(),
-                                   graph.csr_in_edges());
+            graph.csr_in_offsets(),
+            graph.csr_in_edges());
 
     // Finding largest vertex
     degree_t max_degree_vertex = hornet_graph.max_degree_id();
     std::cout << "Max degree vextex is " << max_degree_vertex << std::endl;
 
-	KatzCentrality kcPostUpdate(hornet_graph, max_iterations, topK,
-                                max_degree_vertex);
-	Timer<DEVICE> TM;
-	TM.start();
+    KatzCentralityDynamic kcPostUpdate(hornet_graph, max_iterations, topK,
+            max_degree_vertex);
+    Timer<DEVICE> TM;
+    TM.start();
 
-	kcPostUpdate.run();
+    //kcPostUpdate.run();
 
-	TM.stop();
+    TM.stop();
     auto total_time = TM.duration();
     std::cout << "The number of iterations   : "
-              << kcPostUpdate.get_iteration_count()
-              << "\nTotal time for KC          : " << total_time
-              << "\nAverage time per iteartion : "
-              << total_time /
-                 static_cast<float>(kcPostUpdate.get_iteration_count())
-              << "\n";
+        << kcPostUpdate.get_iteration_count()
+        << "\nTotal time for KC          : " << total_time
+        << "\nAverage time per iteartion : "
+        << total_time /
+        static_cast<float>(kcPostUpdate.get_iteration_count())
+        << "\n";
 }

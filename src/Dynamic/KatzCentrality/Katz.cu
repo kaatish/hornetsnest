@@ -98,6 +98,10 @@ KatzCentralityDynamic::~KatzCentralityDynamic() {
     release();
 }
 
+void KatzCentralityDynamic::run() {
+    run_static();
+}
+
 void KatzCentralityDynamic::run_static() {
     // Executing the static graph algorithm
     kc_static.reset();
@@ -206,6 +210,14 @@ void KatzCentralityDynamic::copyKCToHost(double* host_array) {
 
 void KatzCentralityDynamic::copyNumPathsToHost(ulong_t* host_array) {
     kc_static.copyNumPathsToHost(host_array);
+}
+
+void KatzCentralityDynamic::reset() {
+    kc_static.reset();
+}
+
+bool KatzCentralityDynamic::validate() {
+    return kc_static.validate();
 }
 
 }// cuStingerAlgs namespace
