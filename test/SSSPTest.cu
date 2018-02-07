@@ -18,13 +18,13 @@ int main(int argc, char* argv[]) {
     host::generate_randoms(h_weights, graph.nE(), 0, 100);
 
     HornetInit hornet_init(graph.nV(), graph.nE(), graph.csr_out_offsets(),
-                           graph.csr_out_edges());
+            graph.csr_out_edges());
     hornet_init.insertEdgeData(h_weights);
 
     HornetGraph hornet_graph(hornet_init);
 
     vid_t root = 0;
-    if(argc==3) 
+    if(argc==3)
         root = atoi(argv[2]);
 
     SSSP sssp(hornet_graph);
@@ -40,5 +40,5 @@ int main(int argc, char* argv[]) {
 
     auto is_correct = sssp.validate();
     std::cout << (is_correct ? "\nCorrect <>\n\n" : "\n! Not Correct\n\n");
-    return is_correct;
+    return !is_correct;
 }

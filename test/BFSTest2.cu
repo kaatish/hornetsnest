@@ -16,19 +16,19 @@ int main(int argc, char* argv[]) {
 
 
     HornetInit hornet_init(graph.nV(), graph.nE(), graph.csr_out_offsets(),
-                           graph.csr_out_edges());
+            graph.csr_out_edges());
 
     HornetGraph hornet_graph(hornet_init);
 
 
     BfsTopDown2 bfs_top_down(hornet_graph);
- 
-	vid_t root = graph.max_out_degree_id();
-	if (argc==3)
-	  root = atoi(argv[2]);
+
+    vid_t root = graph.max_out_degree_id();
+    if (argc==3)
+        root = atoi(argv[2]);
 
     bfs_top_down.set_parameters(root);
- 
+
     Timer<DEVICE> TM;
     cudaProfilerStart();
     TM.start();
